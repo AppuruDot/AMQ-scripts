@@ -7,6 +7,7 @@ Game Mode Roller - Final Version
 - Player list mode with player selection
 - Mastery sub-settings (Novice/Intermediate) are reusable across rounds
 - Mastery MODES and TOP X Random only appear once across all rounds
+- 4v4 Grand Prix is ONE entry (4v4 only, once across all rounds); its 8 variants are rolled only after it is picked
 """
 
 import random
@@ -113,6 +114,29 @@ REUSABLE_SUBSETTING_MODES = {
     "INs Mastery 1v1/2v2 (Team vs Team)",
 }
 
+# 4v4 Grand Prix is a single entry inside Watched Game Modes (Team). It can only be
+# rolled once across all rounds (the normal (mode, sub-setting) uniqueness check
+# handles that). Only after it has been picked do we roll one of its 8 variants.
+GRAND_PRIX_NAME = "4v4 Grand Prix"
+GRAND_PRIX_VARIANTS: List[Tuple[str, str]] = [
+    ("Firm: OPs 0-100 - Equal Dist",
+     "m0g1421111110111314000031000000001411111111111100k011o000000f352143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Firm: OPs 0-100 - Random Dist",
+     "m0g1421111110111314000011000000001411111111111100k011o000000f352143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Good: OPEDs 0-100 - Equal Dist",
+     "m0g1421111110111314000031100000001411111111111100k011o000000f352143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Good: OPEDs 0-100 - Random Dist",
+     "m0g1421111110111314000011100000001411111111111100k011o000000f352143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Soft: OPEDINS 30-60 - Equal Dist",
+     "m0g1421111110111314000031110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110u1o011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Soft: OPEDINS 30-60 - Random Dist",
+     "m0g1421111110111314000011110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110u1o011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Heavy: OPEDINS 25-100 - Equal Dist",
+     "m0g1421111110111314000031110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110p2s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+    ("Heavy: OPEDINS 25-100 - Random Dist",
+     "m0g1421111110111314000011110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110p2s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+]
+
 # ------------------------------------------------------------
 # Sub-settings (allowed_S exactly as you set them)
 # ------------------------------------------------------------
@@ -146,7 +170,10 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
          "m0g0k4111110011130k000011000000000k111111111111005051o000000f152143331110000k012r02i0a46533a11002s011111111111002s0111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
         ("0-60 Watched NGMC 4v4", {4},
          "m0g0z2111111000130z000011110000000z11111111111100k011o000000f152143331110000k012r02i0a8c533a11002s011111111111001o0111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
-        
+
+        # ---- 4v4 Grand Prix: ONE entry here. The 8 variants live in GRAND_PRIX_VARIANTS
+        # and are only rolled after this entry has been picked. ----
+        (GRAND_PRIX_NAME, {4}, ""),
     ],
 
     "Pad Active Player List Modes": [
@@ -154,8 +181,6 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
          "m2s0k2111111011130k000011110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111001o1111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
         ("BR 2v2", {2},
          "m2s0k2111011011130k000011110101000i11111111111100k011o000000f1521433321100005012r02i0a8c133a11002s011111111111001o1111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
-         ("4v4 Grand Prix",{4},
-          "m2s0k2111111011130k000011110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111001o1111002s01a111111111102a111111111050017pr11hg1ka03-11111--")
     ],
 
     "Watched Random Tag (Weighted)": [
@@ -197,11 +222,11 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
     "OPEDINS Mastery DNGMC": [
         ("Novice", None, "#5936"),
         ("Intermediate", None, "#5937"),
-        ],
+    ],
     "Random Chanting": [
         ("Random Chanting 0-100 OPEDINS (Team vs Team)", None,
-        "m2s0k21111110111100000k11110000000k01000100010000k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
-        ],
+         "m2s0k21111110111100000k11110000000k01000100010000k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
+    ],
 
     "OPs Mastery 1v1/2v2 (Team vs Team)": [
         ("Novice", None, "#5860"),
@@ -232,12 +257,12 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
     ],
 
 
-    "Random Tags/Genre: (1v1)": [        
+    "Random Tags/Genre: (1v1)": [
         ("Idol 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-11111-0371-"),
         ("Shounen 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-11111-01k1-"),
         ("Isekai 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-11111-06s1-"),
         ("Shoujo 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-11111-01h1-"),
-        ("Music 30=100 Random", None,"m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--" ),
+        ("Music 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
         ("Sports 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-111110g1--"),
         ("Slice of Life 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-111110f1--"),
         ("Mahou Shoujo 30-100 Random", None, "m0g0k21111100101100000k11110000000k10111011101100k051o000000f152143331110000k012r02i0a46533a11002s0111111111110u2s0111002s01a111111111102a111111111050017pr11hg1ka03-11111081--"),
@@ -359,11 +384,11 @@ def get_eligible_subsettings(
 ) -> List[Tuple[str, str]]:
     """
     Return eligible sub-settings for a mode.
-    
+
     For REUSABLE_SUBSETTING_MODES, sub-settings are always considered eligible
     (they can repeat across rounds). Only the mode itself is restricted to
     once across all rounds (handled in find_valid_combination).
-    
+
     For all other modes, a sub-setting is excluded if that exact
     (mode, sub-setting) pair was already used in a previous round.
     """
@@ -467,7 +492,7 @@ def roll_round(
     )
 
     if combo is None:
-    # Fallback: never reuse a once-only mode from a previous round.
+        # Fallback: never reuse a once-only mode from a previous round.
         combo = []
         left = target_S
 
@@ -499,7 +524,7 @@ def roll_round(
             "Watched Random Tag (Weighted)",
             "Watched Random Genre (Weighted)",
             "Watched Years (Weighted)",
-            "Random Tags: (1v1)",
+            "Random Tags/Genre: (1v1)",
         ]
 
         while left > 0:
@@ -526,6 +551,14 @@ def roll_round(
             name, code = "(no eligible setting left)", ""
         else:
             name, code = random.choice(eligible)
+            # Grand Prix picked -> now roll which of its 8 variants (equal odds).
+            # The (mode, GRAND_PRIX_NAME) key is what gets tracked as used below.
+            if name == GRAND_PRIX_NAME:
+                variant_name, code = random.choice(GRAND_PRIX_VARIANTS)
+                display_name = f"{GRAND_PRIX_NAME} - {variant_name}"
+                result.append((mode, S, display_name, code))
+                newly_used.add((mode, name))
+                continue
 
         result.append((mode, S, name, code))
         # Only track used settings for modes that enforce sub-setting uniqueness
