@@ -7,7 +7,7 @@ Game Mode Roller - Final Version
 - Player list mode with player selection
 - Mastery sub-settings (Novice/Intermediate) are reusable across rounds
 - Mastery MODES and TOP X Random only appear once across all rounds
-- 4v4 Grand Prix is ONE entry (4v4 only, once across all rounds); its 8 variants are rolled only after it is picked
+- 4v4 Grand Prix is ONE entry (4v4 only, once across all rounds); its 8 variants and a Distance (Sprint/Mile/Medium/Long) are rolled only after it is picked
 """
 
 import random
@@ -135,6 +135,14 @@ GRAND_PRIX_VARIANTS: List[Tuple[str, str]] = [
      "m0g1421111110111314000031110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110p2s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
     ("Heavy: OPEDINS 25-100 - Random Dist",
      "m0g1421111110111314000011110000001411111111111100k011o000000f352143331110000k012r02i0a8c133a110p2s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-111110a1--"),
+]
+
+# Rolled separately from the variant whenever 4v4 Grand Prix is picked (equal odds).
+GRAND_PRIX_DISTANCES: List[Tuple[str, int]] = [
+    ("Sprint", 60),
+    ("Mile", 70),
+    ("Medium", 80),
+    ("Long", 90),
 ]
 
 # ------------------------------------------------------------
@@ -555,7 +563,11 @@ def roll_round(
             # The (mode, GRAND_PRIX_NAME) key is what gets tracked as used below.
             if name == GRAND_PRIX_NAME:
                 variant_name, code = random.choice(GRAND_PRIX_VARIANTS)
-                display_name = f"{GRAND_PRIX_NAME} - {variant_name}"
+                dist_name, dist_points = random.choice(GRAND_PRIX_DISTANCES)
+                display_name = (
+                    f"{GRAND_PRIX_NAME} - {variant_name} | "
+                    f"Distance: {dist_name} (Points goal {dist_points})"
+                )
                 result.append((mode, S, display_name, code))
                 newly_used.add((mode, name))
                 continue
