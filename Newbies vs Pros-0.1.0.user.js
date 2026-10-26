@@ -130,29 +130,13 @@
 
         const players = getPlayers();
 
-        if (players.length !== REQUIRED_PLAYERS) {
-            sendChatMessage(
-                `Newbies vs Pros requires exactly ${REQUIRED_PLAYERS} players (3 newbies in Team ${NEWBIE_TEAM}, pros in Teams ${BLOCKER_TEAM}, ${ATTACKER_TEAM} and ${HEALER_TEAM}).`
-            );
-            return;
-        }
 
         const newbies = players.filter(p => Number(p.teamNumber) === NEWBIE_TEAM);
         const blocker = players.filter(p => Number(p.teamNumber) === BLOCKER_TEAM);
         const attacker = players.filter(p => Number(p.teamNumber) === ATTACKER_TEAM);
         const healer = players.filter(p => Number(p.teamNumber) === HEALER_TEAM);
 
-        if (
-            newbies.length !== 3 ||
-            blocker.length !== 1 ||
-            attacker.length !== 1 ||
-            healer.length !== 1
-        ) {
-            sendChatMessage(
-                `Invalid teams. Need 3 players in Team ${NEWBIE_TEAM} and 1 player each in Teams ${BLOCKER_TEAM}, ${ATTACKER_TEAM} and ${HEALER_TEAM}.`
-            );
-            return;
-        }
+
 
         nvpState = {
             newbies: newbies.map(p => ({ id: p.gamePlayerId, name: p.name })),
@@ -264,11 +248,6 @@
                 );
                 nvpState.attackerStack = 0;
             }
-        } else if (nvpState.attackerStack > 0) {
-            nvpState.attackerStack -= 1;
-            sendChatMessage(
-                `${nvpState.attacker.name} (Attacker) missed. Bonus reduced to +${nvpState.attackerStack}`
-            );
         }
 
         // Apply damage after healing and attack calculations.
