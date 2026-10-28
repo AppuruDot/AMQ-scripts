@@ -197,7 +197,6 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
         ("Isekai", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-06s1-"),
         ("Card Battle", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-04y1-"),
         ("Female Harem", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-00n1-"),
-        ("Male Harem", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-03f1-"),
         ("CGDCT", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-02k1-"),
         ("CBDCT", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-0tj1-"),
         ("Shoujo", None, "m2s0k1111111011130k000021110101000i11111111111100k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111-01h1-"),
@@ -228,28 +227,51 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
     ],
 
     "OPEDINS Mastery DNGMC": [
-        ("Novice", None, "#5936"),
-        ("Intermediate", None, "#5937"),
+        ("Novice", None, "#5936"), {1, 2}# 1v1/2v2 only
+        ("Intermediate", None, "#5937"), {2, 3, 4}
+        ("Full", None, "#9650"), {3, 4}
     ],
     "Random Chanting": [
         ("Random Chanting 0-100 OPEDINS (Team vs Team)", None,
          "m2s0k21111110111100000k11110000000k01000100010000k011o000000f152143331110000k012r02i0a8c133a11002s011111111111002s1111002s01a111111111102a111111111050017pr11hg1ka03-11111--"),
     ],
 
-    "OPs Mastery 1v1/2v2 (Team vs Team)": [
-        ("Novice", None, "#5860"),
-        ("Intermediate", None, "#5889"),
+    "OPs Mastery DNGMC": [
+        ("Novice", None, "#5860"), {1, 2},
+        ("Intermediate", None, "#5889"), {2, 3, 4},
+        ("Full", None, "#9644"), {3, 4},
     ],
 
-    "EDs Mastery 1v1/2v2 (Team vs Team)": [
-        ("Novice", None, "#5863"),
-        ("Intermediate", None, "#5890"),
+    "EDs Mastery DNGMC": [
+        ("Novice", None, "#5863"), {1, 2},
+        ("Intermediate", None, "#5890"), {2, 3, 4},
+        ("Full", None, "#9645"), {3, 4},
     ],
 
-    "INs Mastery 1v1/2v2 (Team vs Team)": [
-        ("Novice", None, "#5866"),
-        ("Intermediate", None, "#5891"),
+    "INs Mastery DNGMC": [
+        ("Novice", None, "#5866"), {1, 2},
+        ("Intermediate", None, "#5891"), {2, 3, 4},
+        ("Full", None, "#9646"), {3, 4},
     ],
+
+    "OPEDs Mastery DNGMC": [
+        ("Novice", None, "#5917"), {1, 2},
+        ("Intermediate", None, "#5920"), {2, 3, 4},
+        ("Full", None, "#9647"), {3, 4},
+    ],
+
+    "OPINs Mastery DNGMC": [
+        ("Novice", None, "#5928"), {1, 2},
+        ("Intermediate", None, "#5929"), {2, 3, 4},
+        ("Full", None, "#9648"), {3, 4},
+    ],
+
+    "EDINs Mastery DNGMC": [
+        ("Novice", None, "#5932"), {1, 2},
+        ("Intermediate", None, "#5933"), {2, 3, 4},
+        ("Full", None, "#9649"), {3, 4},
+    ],
+    
 
     "Novice Ranked DNGMC": [
         ("Novice Ranked DNGMC", None, "#10133"),
@@ -324,7 +346,10 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
         ("TK", None, "#24754"),
         ("Masayoshi Ooishi", None, "#330"),
         ("Manaka Iwami", None, "#27809"),
-        ("Kiyono Yasuno", None, "#3767")
+        ("Kiyono Yasuno", None, "#3767"),
+        ("Maaya Uchida", None, "#1892"),
+        ("Aimi", None, "125"),
+        ("Takanori Nishikawa", None, "#28155"),
     ],
 
     "Groups": [
@@ -343,7 +368,7 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
         ("FLOW", None, "#25386"),
         ("BUMP OF CHICKEN", None, "#588"),
         ("UVERworld", None, "#9374"),
-        ("Round Table ft. Nino", None, "#1538")
+        ("Round Table ft. Nino", None, "#1538"),
     ],
 
     "Franchise": [
@@ -365,6 +390,9 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
         ("UtaPri", None, "#20038"),
         ("Symphogear", None, "#127"),
         ("Macross", None, "#74"),
+        ("Gintama", None, "#808"),
+        ("Naruto", None, "#560"),
+        ("One Piece", None, "#24958"),
     ],
 
     "Composers": [
@@ -372,13 +400,17 @@ SUB_SETTINGS: Dict[str, List[Tuple[str, Optional[Set[int]], str]]] = {
         ("TeddyLoid", None, "#22124"),
         ("Yuki Kajiura", None, "#21879"),
         ("Hiroyuki Sawano", None, "#18790"),
+        ("ryo (supercell)", None, "#27582"),
+        ("I've Sound", None, "#23234"),
     ],
 
     "Extras": [
         ("TRIGGER", None, "#25118"),
         ("Madhouse", None, "#25216"),
         ("CLAMP", None, "#17127"),
-        ("Eurobeat", None, "#260")
+        ("Eurobeat", None, "#260"),
+        ("Studio Wit", None, "#25223"),
+        ("Visual Novels", None, "#97"),
     ],
 }
 
